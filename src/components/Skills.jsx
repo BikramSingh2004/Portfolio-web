@@ -7,6 +7,9 @@ import {
   FaPaintBrush,
   FaTools,
 } from "react-icons/fa";
+// import { FaHtml5, FaCss3Alt, FaJs, FaReact } from "react-icons/fa";
+
+
 
 const skills = [
   { name: "C", icon: <FaCode /> },
