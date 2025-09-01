@@ -1,31 +1,74 @@
-import React from "react";
+import { useState, useEffect } from "react";
 
 const navLinks = [
-  { id: "hero", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "projects", label: "Projects" },
-  { id: "experience", label: "Experience" },
-  { id: "contact", label: "Contact" },
+  { href: "#about", label: "About" },
+  { href: "#education", label: "Education" },
+  { href: "#experience", label: "Experience" },
+  { href: "#projects", label: "Projects" },
+  { href: "#skills", label: "Skills" },
 ];
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  // Close on ESC
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Optional: close when clicking outside (desktop)
+  useEffect(() => {
+    const onClick = (e) => {
+      const nav = document.querySelector(".navbar");
+      if (open && nav && !nav.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, [open]);
+
   return (
-    <nav className="w-full py-4 px-6 flex justify-between items-center bg-gray-900 bg-opacity-80 fixed top-0 left-0 z-50 shadow-lg">
-      <div className="text-2xl font-bold tracking-tight text-indigo-400">
-        Bikram Kumar Singh
-      </div>
-      <ul className="flex space-x-6">
-        {navLinks.map((link) => (
-          <li key={link.id}>
+    <nav className="navbar" data-expanded={open ? "true" : "false"}>
+      <div className="nav-inner">
+        <a href="#hero" className="nav-brand" onClick={() => setOpen(false)}>
+          Bikram Kumar Singh
+        </a>
+
+        <button
+          className="nav-toggle"
+          aria-label="Menu"
+          aria-expanded={open ? "true" : "false"}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <span className="nav-toggle-bar" />
+          <span className="nav-toggle-bar" />
+          <span className="nav-toggle-bar" />
+        </button>
+
+        <ul className="nav-menu">
+          {navLinks.map(({ href, label }) => (
+            <li key={href}>
+              <a
+                className="nav-link"
+                href={href}
+                onClick={() => setOpen(false)}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+          <li>
             <a
-              href={`#${link.id}`}
-              className="text-gray-200 hover:text-indigo-400 transition-colors font-medium"
+              className="nav-cta"
+              href="#contact"
+              onClick={() => setOpen(false)}
             >
-              {link.label}
+              Contact
             </a>
           </li>
-        ))}
-      </ul>
+        </ul>
+      </div>
     </nav>
   );
 }

@@ -43,45 +43,72 @@ const projects = [
     link: "#",
     demo: "https://chat-application-4znk.vercel.app/",
   },
+  
 ];
 
 export default function Projects() {
   return (
-    <section className="w-full py-16 bg-gradient-to-br from-[#23255a] via-[#23263a] to-[#181c2e]">
-      <div className="flex flex-col items-center w-full">
-        <h2 className="text-3xl font-bold text-indigo-300 mb-8 text-center">
+    <section className="relative w-full py-16">
+      {/* ambient theme blobs */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 -left-20 h-96 w-96 rounded-full blur-3xl bg-gradient-to-br from-amber-400/20 via-rose-400/20 to-violet-400/20"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-24 -right-20 h-[28rem] w-[28rem] rounded-full blur-3xl bg-gradient-to-tr from-violet-400/20 via-rose-400/20 to-amber-400/20"
+      />
+
+      <div className="relative flex flex-col items-center w-full">
+        <h2 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-rose-400 to-violet-400">
           Projects
         </h2>
-        <div className="w-full grid gap-8 md:grid-cols-2 lg:grid-cols-3 px-2 md:px-16 lg:px-32">
+
+        {/* WIDER cards (3 on xl, 4 on 2xl) + SHORTER height via clamps */}
+        <div className="w-full max-w-7xl mx-auto grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 px-4">
           {projects.map((project) => (
             <div
               key={project.title}
-              className="bg-[#23263a] rounded-xl shadow-lg overflow-hidden flex flex-col hover:scale-[1.03] transition-transform border border-slate-700"
+              className="bg-black/30 rounded-2xl shadow-xl overflow-hidden flex flex-col border border-white/10 backdrop-blur hover:-translate-y-0.5 transition-transform"
             >
-              <div className="p-6 flex flex-col flex-1">
-                <h3 className="text-2xl font-semibold text-indigo-200 mb-2">
+              <div className="p-5 flex flex-col">
+                <h3 className="text-xl font-semibold text-[var(--text-0)] mb-2 leading-snug">
                   {project.title}
                 </h3>
-                <p className="text-gray-300 mb-4 flex-1">
+
+                {/* Clamp description to reduce card height */}
+                <p
+                  className="text-[var(--text-1)] mb-3 leading-relaxed"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 5,        // <= adjust lines if needed
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
                   {project.description}
                 </p>
-                <div className="flex flex-wrap gap-2 mb-4">
+
+                {/* Tech chips: limit visible rows to keep height compact */}
+                <div className="flex flex-wrap gap-2 mb-3 max-h-16 overflow-hidden">
                   {project.tech.map((tech) => (
                     <span
                       key={tech}
-                      className="bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-medium shadow"
+                      className="px-2.5 py-1 rounded-full text-[11px] font-medium text-[var(--text-0)] border border-white/10 bg-gradient-to-r from-amber-400/20 via-rose-400/20 to-violet-400/20"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
-                <div className="flex gap-2 mt-auto">
+
+                {/* actions */}
+                <div className="mt-auto flex gap-2 pt-1">
                   {project.demo && (
                     <a
                       href={project.demo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg font-semibold transition-colors shadow"
+                      className="inline-block px-3.5 py-2 rounded-lg font-semibold text-[#1a1223] border border-white/20 shadow bg-gradient-to-b from-white to-amber-200 hover:-translate-y-0.5 transition-transform"
                     >
                       Live Demo
                     </a>
@@ -91,7 +118,7 @@ export default function Projects() {
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block px-4 py-2 border border-indigo-400 text-indigo-200 rounded-lg font-semibold transition-colors shadow hover:bg-indigo-700/30"
+                      className="inline-block px-3.5 py-2 rounded-lg font-semibold text-[var(--text-1)] border border-white/15 bg-white/5 hover:bg-white/10 transition-colors shadow backdrop-blur"
                     >
                       Code
                     </a>
